@@ -10,98 +10,94 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-size_t	digit_count(long n)
+
+#include "../includes/ft_printf.h"
+#include "../includes/libft.h"
+
+int	printnumber(int number, t_printf *printfstruct)
 {
-	size_t	c;
+	char	*str;
+	int numberlen;
 
-	c = 1;
-	while (n >= 10)
-	{
-		n /= 10;
-		c += 1;
-	}
-	return (c);
-}
-
-size_t	get_square(long n)
-{
-	size_t	square;
-
-	square = 1;
-	while (n > 1)
-	{
-		square *= 10;
-		n--;
-	}
-	return (square);
-}
-
-char	*min_int(void)
-{
-	char	*res;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	temp = "-2147483648";
-	res = malloc(sizeof(char) * 12);
-	while (i < 11)
-	{
-		res[i] = temp[i];
-		i++;
-	}
-	res[i] = 0;
-	return (res);
-}
-
-char	*convert(int n, int neg, size_t count, size_t square)
-{
-	char	*res;
-
-	if (neg == 1)
-	{
-		res = ft_calloc(count + 2,sizeof(char));
-		if (!res)
-			return (0);
-		res[0] = '-';
-		res[1] = (n / square) + 48;
-		neg = 2;
-	}
+	if (printfstruct->dotToken && number < 0)
+		str = ft_itoa(number * -1);
 	else
+		str = ft_itoa(number);
+	numberlen = ft_strlen(str);
+	if (printfstruct->minusToken)
 	{
-		res = ft_calloc(count + 1,sizeof(char));
-		if (!res)
-			return (0);
-		res[0] = (n / square) + 48;
-		neg = 1;
+		if (printfstruct->plusToken)
+		{
+		 	if (number >= 0)
+		 	{
+		 		ft_putchar_fd('+', 1);
+		 		printfstruct->returnThis++;
+		 	}
+		}
+		ft_putstr_fd(str, 1);
+		if (printfstruct->zeroToken)
+			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, '0');
+		else if (!printfstruct->zeroToken)printfstruct->returnThis += 
+			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, ' ');
 	}
-	while (square >= 10)
+	if (!printfstruct->minusToken)
 	{
-		res[neg++] = ((n % square) / (square / 10)) + 48;
-		square /= 10;
+		if (printfstruct->plusToken)
+		{
+		 	if (number >= 0)
+		 	{
+		 		ft_putchar_fd('+', 1);
+		 		printfstruct->returnThis++;
+		 	}
+		}
+		if (printfstruct->spaceToken && number >= 0 && !printfstruct->numberToken)
+		{
+			ft_putchar_fd(' ', 1);
+			printfstruct->returnThis += 1;
+		}
+		if (printfstruct->dotToken)
+		{
+			if (printfstruct->numberToken2)
+			{
+				if (number < 0)
+					ft_putchar_fd('-', 1);
+				if (printfstruct->spaceToken)
+					putnchar((printfstruct->theNumber - (numberlen + 1) - printfstruct->theNumber2), '0');
+				else if (!printfstruct->spaceToken)
+					putnchar(printfstruct->theNumber - numberlen, '0');
+			}
+			if (!printfstruct->numberToken2)
+			{
+				if (number < 0)
+					ft_putchar_fd('-', 1);
+				if (printfstruct->spaceToken)
+					putnchar((printfstruct->theNumber - (numberlen + 1) - printfstruct->theNumber2), ' ');
+				else if (!printfstruct->spaceToken)
+					putnchar(printfstruct->theNumber - numberlen, '0');
+			}
+		}
+		else if (printfstruct->zeroToken)
+			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, '0');
+		else if (!printfstruct->zeroToken)
+			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, ' ');
+		ft_putstr_fd(str, 1);
 	}
-	return (res);
+	printfstruct->returnThis += ft_strlen(str);
+	printfstruct->printed = True;                   
+	free(str);
+	return (printfstruct->returnThis);
 }
 
-int	printnumber(int n)
+int	putnchar(int sc, char c)
 {
-	size_t	count;
-	size_t	square;
-	int		neg;
+	int putn;
 
-	if (n == -2147483648)
+	putn = 0;
+	while (sc > 0)
 	{
-		ft_putstr_fd("-2147483648", 1);
-		return (11);
+		ft_putchar_fd(c,1);
+		sc--;
+		putn++;
 	}
-	neg = 0;
-	if (n < 0)
-	{
-		neg = 1;
-		n *= -1;
-	}
-	count = digit_count(n);
-	square = get_square(count);
-	ft_putstr_fd(convert(n, neg, count, square), 1);
-	return (count);
+	return (putn);
 }

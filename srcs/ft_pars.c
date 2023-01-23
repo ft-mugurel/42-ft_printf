@@ -13,7 +13,7 @@
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
 
-void	parsing(char *str, va_list args, t_printf printfstruc)
+void	parsing(char *str, va_list args, t_printf *printfstruct)
 {
 	int	i;
 
@@ -22,69 +22,97 @@ void	parsing(char *str, va_list args, t_printf printfstruc)
 	{
 		if (str[i] == '%')
 		{
-			printfstruc.percentageFound = True;
-			if (!printfstruc.percentageFound)
-				printfstruc.start = i;
-			i++;
-			printfstruc.firstAfter = str[i];
-			pars0(args, printfstruc);
+			printfstruct->After = (str + i + 1);
+			i += pars(args, printfstruct);
+			makeallfalse(printfstruct);
 		}
 		else
 		{
 			ft_putchar_fd(str[i], 1);
-			printfstruc.returnThis += 1;
+			printfstruct->returnThis += 1;
 		}
 		i++;
 	}
 }
 
-void	pars0(va_list args, t_printf printfstruc)
+int pars(va_list args, t_printf *printfstruct)
 {
-	if (printfstruc.firstAfter == '+')
+	int	i;
+
+	i = 0;
+	while(printfstruct->After[i] && !printfstruct->printed)
 	{
-		printfstruc.plusToken = True;
+	  if (printfstruct->After[i] >= '1' && printfstruct->After[i] <= '9' && !printfstruct->dotToken)
+			numberflag1(printfstruct->After + i, printfstruct);
+	  if (printfstruct->After[i] >= '1' && printfstruct->After[i] <= '9' && printfstruct->dotToken)
+			numberflag2(printfstruct->After + i, printfstruct);
+	  printfstruct->firstAfter = printfstruct->After[i];
+	  pars0(args, printfstruct);
+	  i++;
 	}
-	else if (printfstruc.firstAfter == '-')
-	{
-	  printfstruc.minusToken = True;
-	}
-	pars1(args, printfstruc);
+	return (i);
 }
 
-void	pars1(va_list args, t_printf printfstruc)
+void	numberflag1(char *number, t_printf *printfstruct)
 {
-	if (printfstruc.firstAfter == '#')
-	{
-		printfstruc.hastagToken = True;	
-	}
-	else if (printfstruc.firstAfter == '.')
-	{
-		printfstruc.dotToken = True;
-	}
-	pars2(args, printfstruc);
+	printfstruct->numberToken = True;
+	printfstruct->theNumber = ft_atoi(number);	
 }
-void	pars2(va_list args, t_printf printfstruc)
+
+void	numberflag2(char *number, t_printf *printfstruct)
 {
-	if (printfstruc.firstAfter == ' ')
-	{
-		printfstruc.spaceToken = True;
-	}
-	else if (ft_isdigit(printfstruc.firstAfter))
-	{
-		printfstruc.numberToken = True;
-	}
-	pars3(args, printfstruc);
+	printfstruct->numberToken2 = True;
+	printfstruct->theNumber2 = ft_atoi(number);	
 }
-void	pars3(va_list args, t_printf printfstruc)
+
+void	pars0(va_list args, t_printf *printfstruct)
 {
-	if (printfstruc.firstAfter == 'c')
+	if (printfstruct->firstAfter == '+')
+	{
+		printfstruct->plusToken = True;
+	}
+	else if (printfstruct->firstAfter == '-')
+	{
+	  printfstruct->minusToken = True;
+	}
+	pars1(args, printfstruct);
+}
+
+void	pars1(va_list args, t_printf *printfstruct)
+{
+	if (printfstruct->firstAfter == '#')
+	{
+		printfstruct->hastagToken = True;	
+	}
+	if (printfstruct->firstAfter == '.')
+	{
+		printfstruct->dotToken = True;
+	}
+	pars2(args, printfstruct);
+}
+void	pars2(va_list args, t_printf *printfstruct)
+{
+	if (printfstruct->firstAfter == ' ')
+	{
+		printfstruct->spaceToken = True;
+	}
+	if (printfstruct->firstAfter == '0' && !printfstruct->numberToken)
+	{
+		printfstruct->zeroToken = True;
+	}
+	pars3(args, printfstruct);
+}
+void	pars3(va_list args, t_printf *printfstruct)
+{
+	if (printfstruct->firstAfter == 'c')
 	{
 		char	c;
 		c = va_arg(args, int);
 		ft_putchar_fd(c, 1);
-		printfstruc.returnThis += 1;
+		printfstruct->returnThis += 1;
+        printfstruct->printed = True;                   
 	}
-	else if (printfstruc.firstAfter == 's')
+	else if (printfstruct->firstAfter == 's')
 	{
 		char	*str;
 
@@ -92,122 +120,31 @@ void	pars3(va_list args, t_printf printfstruc)
 		if (!str)
 		{
 			ft_putstr_fd("(null)", 1);
-			printfstruc.returnThis += 6;
-			return ;
+			printfstruct->returnThis += 6;
+			printfstruct->printed = True;                   
 		}
-		ft_putstr_fd(str, 1);
-		printfstruc.returnThis += ft_strlen(str);
+		else
+		{
+			ft_putstr_fd(str, 1);
+			printfstruct->returnThis += ft_strlen(str);
+			printfstruct->printed = True;                   
+		}
 	}
-	pars4(args, printfstruc);
-}
-void	pars4(va_list args, t_printf printfstruc)
-{
-	if (printfstruc.firstAfter == 'i')
-		printfstruc.returnThis = printnumber(va_arg(args, int));
-	else if (printfstruc.firstAfter == 'd')
-		printfstruc.returnThis = printnumber(va_arg(args, int));
-	else if (printfstruc.firstAfter == 'x')
-		printfstruc.returnThis = printhex(args, False);
-	else if (printfstruc.firstAfter == 'X')
-		printfstruc.returnThis = printhex(args, True);
-	else if (printfstruc.firstAfter == 'X')
-		printfstruc.returnThis = printhex(args, True);
+	pars4(args, printfstruct);
 }
 
-size_t	digit_count(long n)
+void	pars4(va_list args, t_printf *printfstruct)
 {
-	size_t	c;
-
-	c = 1;
-	while (n >= 10)
-	{
-		n /= 10;
-		c += 1;
-	}
-	return (c);
-}
-
-size_t	get_square(long n)
-{
-	size_t	square;
-
-	square = 1;
-	while (n > 1)
-	{
-		square *= 10;
-		n--;
-	}
-	return (square);
-}
-
-char	*min_int(void)
-{
-	char	*res;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	temp = "-2147483648";
-	res = malloc(sizeof(char) * 12);
-	while (i < 11)
-	{
-		res[i] = temp[i];
-		i++;
-	}
-	res[i] = 0;
-	return (res);
-}
-
-char	*convert(int n, int neg, size_t count, size_t square)
-{
-	char	*res;
-
-	if (neg == 1)
-	{
-		res = ft_calloc(count + 2,sizeof(char));
-		if (!res)
-			return (0);
-		res[0] = '-';
-		res[1] = (n / square) + 48;
-		neg = 2;
-	}
-	else
-	{
-		res = ft_calloc(count + 1,sizeof(char));
-		if (!res)
-			return (0);
-		res[0] = (n / square) + 48;
-		neg = 1;
-	}
-	while (square >= 10)
-	{
-		res[neg++] = ((n % square) / (square / 10)) + 48;
-		square /= 10;
-	}
-	return (res);
-}
-
-int	printnumber(int n)
-{
-	size_t	count;
-	size_t	square;
-	int		neg;
-
-	if (n == -2147483648)
-	{
-		ft_putstr_fd("-2147483648", 1);
-		return (11);
-	}
-	neg = 0;
-	if (n < 0)
-	{
-		neg = 1;
-		n *= -1;
-	}
-	count = digit_count(n);
-	square = get_square(count);
-	ft_putstr_fd(convert(n, neg, count, square), 1);
-	return (count);
+	if (printfstruct->firstAfter == 'i')
+		printfstruct->returnThis = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'd')
+		printfstruct->returnThis = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'x')
+		printfstruct->returnThis = printhex(args, False);
+	else if (printfstruct->firstAfter == 'X')
+		printfstruct->returnThis = printhex(args, True);
+	else if (printfstruct->firstAfter == 'X')
+		printfstruct->returnThis = printhex(args, True);
 }
 
 int	printhex(va_list args, Bool X)
