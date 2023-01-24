@@ -51,6 +51,8 @@ void	makeallfalse(t_printf *printfstruck);
 void	numberflag1(char *number, t_printf *printfstruct);
 void	numberflag2(char *number, t_printf *printfstruct);
 int	putnchar(int sc, char c);
+int change_sine(int n);
+int	positiveorzero(int n);
 
 
 #endif // FT_PRINTF_H_

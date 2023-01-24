@@ -38,15 +38,20 @@ void	parsing(char *str, va_list args, t_printf *printfstruct)
 int pars(va_list args, t_printf *printfstruct)
 {
 	int	i;
+	Bool dontzero;
 
 	i = 0;
+	dontzero = False;
 	while(printfstruct->After[i] && !printfstruct->printed)
 	{
-	  if (printfstruct->After[i] >= '1' && printfstruct->After[i] <= '9' && !printfstruct->dotToken)
-			numberflag1(printfstruct->After + i, printfstruct);
-	  if (printfstruct->After[i] >= '1' && printfstruct->After[i] <= '9' && printfstruct->dotToken)
-			numberflag2(printfstruct->After + i, printfstruct);
 	  printfstruct->firstAfter = printfstruct->After[i];
+		numberflag1(printfstruct->After, printfstruct);
+		if (printfstruct->firstAfter >= '1' && printfstruct->firstAfter <= '9')
+			dontzero = True;
+		if (printfstruct->firstAfter == '.')
+			printfstruct->dotToken = True;
+		if (printfstruct->firstAfter == '0' && !dontzero)
+			printfstruct->zeroToken = True;
 	  pars0(args, printfstruct);
 	  i++;
 	}
@@ -55,14 +60,24 @@ int pars(va_list args, t_printf *printfstruct)
 
 void	numberflag1(char *number, t_printf *printfstruct)
 {
-	printfstruct->numberToken = True;
-	printfstruct->theNumber = ft_atoi(number);	
+	int i;
+
+	i = 0;
+	printfstruct->theNumber = change_sine(ft_atoi(number));	
+	while (number[i] != '.' && number[i])
+		i++;
+	printfstruct->theNumber2 = change_sine(ft_atoi(number + i + 1));	
+	if (printfstruct->theNumber > 0)
+		printfstruct->numberToken = True;
+	if (ft_isdigit(number[i + 1]))
+		printfstruct->numberToken2 = True;
 }
 
-void	numberflag2(char *number, t_printf *printfstruct)
+int change_sine(int n)
 {
-	printfstruct->numberToken2 = True;
-	printfstruct->theNumber2 = ft_atoi(number);	
+	if (n < 0)
+		n = n * -1;
+	return (n);
 }
 
 void	pars0(va_list args, t_printf *printfstruct)
@@ -84,10 +99,6 @@ void	pars1(va_list args, t_printf *printfstruct)
 	{
 		printfstruct->hastagToken = True;	
 	}
-	if (printfstruct->firstAfter == '.')
-	{
-		printfstruct->dotToken = True;
-	}
 	pars2(args, printfstruct);
 }
 void	pars2(va_list args, t_printf *printfstruct)
@@ -95,10 +106,6 @@ void	pars2(va_list args, t_printf *printfstruct)
 	if (printfstruct->firstAfter == ' ')
 	{
 		printfstruct->spaceToken = True;
-	}
-	if (printfstruct->firstAfter == '0' && !printfstruct->numberToken)
-	{
-		printfstruct->zeroToken = True;
 	}
 	pars3(args, printfstruct);
 }
