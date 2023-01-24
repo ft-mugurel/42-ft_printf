@@ -47,6 +47,16 @@ int	printnumber(int number, t_printf *printfstruct)
 	}
 	else if (!printfstruct->minusToken && !printfstruct->dotToken)
 	{
+		if (printfstruct->plusToken && number >= 0)
+		{
+			printfstruct->returnThis += putnchar(1, '+');
+			printfstruct->theNumber -= 1;
+		}
+		if (printfstruct->spaceToken && number >= 0)
+		{
+			printfstruct->returnThis += putnchar(1, ' ');
+			printfstruct->theNumber -= 1;
+		}
 		if (printfstruct->zeroToken && number < 0)
 		{
 			printfstruct->returnThis += putnchar(1, '-');
