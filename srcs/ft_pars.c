@@ -29,7 +29,7 @@ void	parsing(char *str, va_list args, t_printf *printfstruct)
 		else
 		{
 			ft_putchar_fd(str[i], 1);
-			printfstruct->returnThis += 1;
+			printfstruct->retlen += 1;
 		}
 		i++;
 	}
@@ -63,11 +63,14 @@ void	numberflag1(char *number, t_printf *printfstruct)
 	int i;
 
 	i = 0;
-	printfstruct->theNumber = change_sine(ft_atoi(number));	
+	if (printfstruct->minusToken)
+		printfstruct->Number = change_sine(ft_atoi(number + 1));	
+	if (!printfstruct->minusToken)
+		printfstruct->Number = change_sine(ft_atoi(number));	
 	while (number[i] != '.' && number[i])
 		i++;
-	printfstruct->theNumber2 = change_sine(ft_atoi(number + i + 1));	
-	if (printfstruct->theNumber > 0)
+	printfstruct->Number2 = change_sine(ft_atoi(number + i + 1));	
+	if (printfstruct->Number > 0)
 		printfstruct->numberToken = True;
 	if (ft_isdigit(number[i + 1]))
 		printfstruct->numberToken2 = True;
@@ -111,47 +114,25 @@ void	pars2(va_list args, t_printf *printfstruct)
 }
 void	pars3(va_list args, t_printf *printfstruct)
 {
-	if (printfstruct->firstAfter == 'c')
-	{
-		char	c;
-		c = va_arg(args, int);
-		ft_putchar_fd(c, 1);
-		printfstruct->returnThis += 1;
-        printfstruct->printed = True;                   
-	}
-	else if (printfstruct->firstAfter == 's')
-	{
-		char	*str;
-
-		str = va_arg(args, char *);
-		if (!str)
-		{
-			ft_putstr_fd("(null)", 1);
-			printfstruct->returnThis += 6;
-			printfstruct->printed = True;                   
-		}
-		else
-		{
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-			printfstruct->printed = True;                   
-		}
-	}
+	if (printfstruct->firstAfter == 's')
+		printfstruct->retlen = s(va_arg(args, char *), printfstruct);
+	else if (printfstruct->firstAfter == 'c')
+		printfstruct->retlen = c(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'i')
+		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'd')
+		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'x')
+		printfstruct->retlen = printhex(args, False);
+	else if (printfstruct->firstAfter == 'X')
+		printfstruct->retlen = printhex(args, True);
+	else if (printfstruct->firstAfter == 'X')
+		printfstruct->retlen = printhex(args, True);
 	pars4(args, printfstruct);
 }
 
 void	pars4(va_list args, t_printf *printfstruct)
 {
-	if (printfstruct->firstAfter == 'i')
-		printfstruct->returnThis = printnumber(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'd')
-		printfstruct->returnThis = printnumber(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'x')
-		printfstruct->returnThis = printhex(args, False);
-	else if (printfstruct->firstAfter == 'X')
-		printfstruct->returnThis = printhex(args, True);
-	else if (printfstruct->firstAfter == 'X')
-		printfstruct->returnThis = printhex(args, True);
 }
 
 int	printhex(va_list args, Bool X)

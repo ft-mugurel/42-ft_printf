@@ -19,11 +19,11 @@ int ft_printf(const char *str, ...)
   t_printf printfstruck;
 
   makeallfalse(&printfstruck);
-	printfstruck.returnThis = 0;
+	printfstruck.retlen = 0;
   va_start(args, str);
   parsing((char *)str, args, &printfstruck);
   va_end(args);
-  return (printfstruck.returnThis);
+  return (printfstruck.retlen);
 }
 
 void	makeallfalse(t_printf *printfstruck)

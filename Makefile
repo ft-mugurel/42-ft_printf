@@ -56,7 +56,12 @@ LIB = 		ft_isalpha.c \
 SRCS = ${addprefix ./lib/,${LIB}} \
 			srcs/ft_printf.c \
 			srcs/ft_printnumber.c \
+			srcs/ft_printnumber2.c \
+			srcs/ft_printnumber3.c \
 			srcs/ft_pars.c \
+			srcs/ft_extra.c \
+			srcs/ft_c.c \
+			srcs/ft_s.c \
 
 OBJS = ${SRCS:.c=.o}
 SRCSB = ${addprefix ./lib/,${LIB}} \

@@ -10,181 +10,91 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
-#include <stdio.h>
 
-int	printnumber(int number, t_printf *printfstruct)
+int	printnumber(int number, t_printf *ps)
 {
-	char	*str;
-	char	printthis;
-	int numberlen;
-	if (!printfstruct->dotToken && printfstruct->zeroToken)
-		printthis = '0';
-	else
-		printthis = ' ';
-	if ((printfstruct->dotToken || printfstruct->zeroToken) && number == -2147483648)
-		str = ft_strdup("2147483648");
-	else if ((printfstruct->zeroToken || printfstruct->dotToken) && number < 0)
-		str = ft_itoa(-number);
-	else
-		str = ft_itoa(number);
-	numberlen = ft_strlen(str);
-	if (printfstruct->minusToken && !printfstruct->dotToken)
-	{
-		if (printfstruct->numberToken)
-		{
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, printthis);
-		}
-		else
-		{
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-	}
-	else if (!printfstruct->minusToken && !printfstruct->dotToken)
-	{
-		if (printfstruct->plusToken && number >= 0)
-		{
-			printfstruct->returnThis += putnchar(1, '+');
-			printfstruct->theNumber -= 1;
-		}
-		if (printfstruct->spaceToken && number >= 0)
-		{
-			printfstruct->returnThis += putnchar(1, ' ');
-			printfstruct->theNumber -= 1;
-		}
-		if (printfstruct->zeroToken && number < 0)
-		{
-			printfstruct->returnThis += putnchar(1, '-');
-			printfstruct->theNumber -= 1;
-		}
-		if (printfstruct->numberToken)
-		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, printthis);
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-		else
-		{
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-	}
-	else if (printfstruct->dotToken && !printfstruct->minusToken)
-	{
-		if (number < 0 && !(printfstruct->numberToken && printfstruct->numberToken2))
-			printfstruct->returnThis += putnchar(1, '-');
-		if (printfstruct->numberToken && printfstruct->numberToken2 && !(printfstruct->theNumber2 == 0) && number == 0)
-		{
-			printfstruct->returnThis += putnchar((printfstruct->theNumber - numberlen) - (printfstruct->theNumber2 - numberlen), '0');
-			printfstruct->returnThis += putnchar(printfstruct->theNumber2, '0');
-		}
-		else if ((printfstruct->numberToken || printfstruct->theNumber2 == 0) && number == 0)
-		{
-			printfstruct->returnThis += putnchar(positiveorzero(printfstruct->theNumber + 1 - numberlen), ' ');
-		}
-		else if (!printfstruct->numberToken && !printfstruct->numberToken2 && number == 0)
-		{
-		}
-		else if (printfstruct->numberToken && printfstruct->numberToken2)
-		{
-			if (number < 0)
-				printfstruct->theNumber -= 1;
-			printfstruct->returnThis += putnchar(positiveorzero(printfstruct->theNumber - numberlen) - positiveorzero(printfstruct->theNumber2 - numberlen), ' ');
-			if (number < 0)
-				printfstruct->returnThis += putnchar(1, '-');
-			printfstruct->returnThis += putnchar(printfstruct->theNumber2 - numberlen, '0');
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-		else if (printfstruct->numberToken && !printfstruct->numberToken2 && number != 0)
-		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber - numberlen, '0');
-			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-		else if (!printfstruct->numberToken && printfstruct->numberToken2)
-		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber2 - numberlen, '0');
-			if (number != 0 || printfstruct->theNumber2 != 0)
-			{
-				ft_putstr_fd(str, 1);
-				printfstruct->returnThis += ft_strlen(str);
-			}
-		}
-		else
-		{
-				ft_putstr_fd(str, 1);
-				printfstruct->returnThis += ft_strlen(str);
-		}
-	}
-	else if (printfstruct->dotToken && printfstruct->minusToken)
+	char	pthis;
+	int		nlen;
+
+	nlen = printfsetup(&pthis, ps, number);
+	printnumber2(ps, &pthis, ps->After, nlen);
+	if (!ps->minusToken && !ps->dotToken)
+		printnumber3(ps, &pthis, nlen, number);
+	if (ps->dotToken && !ps->minusToken)
+		printnumber8(ps, &pthis, nlen, number);
+	else if (ps->dotToken && ps->minusToken)
 	{
 		if (number < 0)
 		{
-			printfstruct->returnThis += putnchar(1, '-');
-			printfstruct->theNumber -= 1;
+			ps->retlen += putnc(1, '-');
+			ps->Number -= 1;
 		}
-		if (printfstruct->numberToken && printfstruct->numberToken2)
+		if (!printnumber12(ps, &pthis, nlen, number))
+			return (0);
+	}
+	ps->printed = True;
+	free(ps->After);
+	return (ps->retlen);
+}
+
+void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen)
+{
+	if (ps->minusToken && !ps->dotToken)
+	{
+		if (ps->numberToken)
 		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber2 - numberlen, '0');
 			ft_putstr_fd(str, 1);
-			printfstruct->returnThis += putnchar((printfstruct->theNumber - numberlen) - positiveorzero(printfstruct->theNumber2 - numberlen), printthis);
-			printfstruct->returnThis += ft_strlen(str);
-		}
-		else if (printfstruct->numberToken && !printfstruct->numberToken2)
-		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber, printthis);
-			if (number != 0 || printfstruct->theNumber2 != 0)
-			{
-				ft_putstr_fd(str, 1);
-				printfstruct->returnThis += ft_strlen(str);
-			}
-		}
-		else if (!printfstruct->numberToken && printfstruct->numberToken2)
-		{
-			printfstruct->returnThis += putnchar(printfstruct->theNumber2 - numberlen, '0');
-			if (number != 0 || printfstruct->theNumber2 != 0)
-			{
-				ft_putstr_fd(str, 1);
-				printfstruct->returnThis += ft_strlen(str);
-			}
-		}
-		else if (!printfstruct->numberToken && !printfstruct->numberToken2 && number == 0)
-		{
+			ps->retlen += ft_strlen(str);
+			ps->retlen += putnc(ps->Number - nlen, *pthis);
 		}
 		else
 		{
-				ft_putstr_fd(str, 1);
-				printfstruct->returnThis += ft_strlen(str);
+			ft_putstr_fd(str, 1);
+			ps->retlen += ft_strlen(str);
 		}
 	}
-	printfstruct->printed = True;                   
-	free(str);
-	return (printfstruct->returnThis);
 }
 
-int	positiveorzero(int n)
+void	printnumber3(t_printf *ps, char *pthis, int nlen, int number)
 {
-	if (n < 0)
-		n = 0;
-	return (n);
-}
-
-int	putnchar(int sc, char c)
-{
-	int putn;
-
-	putn = 0;
-	while (sc > 0)
+	if (ps->plusToken && number >= 0)
+		dpc(ps, '+');
+	if (ps->spaceToken && number >= 0)
+		dpc(ps, ' ');
+	if (ps->zeroToken && number < 0)
+		dpc(ps, '-');
+	if (ps->numberToken)
 	{
-		ft_putchar_fd(c,1);
-		sc--;
-		putn++;
+		ps->retlen += putnc(ps->Number - nlen, *pthis);
+		ft_putstr_fd(ps->After, 1);
+		ps->retlen += ft_strlen(ps->After);
 	}
-	return (putn);
+	else
+	{
+		ft_putstr_fd(ps->After, 1);
+		ps->retlen += ft_strlen(ps->After);
+	}
+}
+
+void	printnumber4(t_printf *ps, int nlen)
+{
+	ps->retlen += putnc((ps->Number - nlen) - (ps->Number2 - nlen), '0');
+	ps->retlen += putnc(ps->Number2, '0');
+}
+
+void	printnumber5(t_printf *ps, char *pthis, int nlen, int number)
+{
+	int	temp;
+
+	if (number < 0)
+		ps->Number -= 1;
+	temp = putnc(porz(ps->Number - nlen) - porz(ps->Number2 - nlen), ' ');
+	ps->retlen += temp;
+	if (number < 0)
+		ps->retlen += putnc(1, '-');
+	ps->retlen += putnc(ps->Number2 - nlen, '0');
+	ft_putstr_fd(ps->After, 1);
+	ps->retlen += ft_strlen(ps->After);
 }

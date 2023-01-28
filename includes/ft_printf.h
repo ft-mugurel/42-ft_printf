@@ -29,12 +29,12 @@ typedef struct t_list
  	Bool	hastagToken;
 	Bool	dotToken;
 	Bool	spaceToken;
-	int		theNumber;
-	int		theNumber2;
+	int		Number;
+	int		Number2;
 	char	*After;
 	char	firstAfter;
 	Bool	printed;
-	int		returnThis;
+	int		retlen;
 }			t_printf;
 
 int ft_printf(const char *str, ...);
@@ -47,12 +47,30 @@ void	pars3(va_list args, t_printf *printfstruct);
 void	pars4(va_list args, t_printf *printfstruct);
 int		printhex(va_list args, Bool X);
 int		printnumber(int number, t_printf *printfstruct);
+void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen);
+void	printnumber3(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber4(t_printf *ps, int nlen);
+void	printnumber5(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber6(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber7(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber8(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber9(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber10(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber11(t_printf *ps, char *pthis, int nlen,int number);
+int		printnumber12(t_printf *ps, char *pthis, int nlen,int number);
+int		printfsetup(char *pthis, t_printf *ps, int number);
+void	dpc(t_printf *ps, char c);
+int		c(int args, t_printf *ps);
+int		s(char *str, t_printf *ps);
+void	s2(char *str, t_printf *ps);
+void	s3(char *str, t_printf *ps, int slen);
+void	s4(char *str, t_printf *ps, int slen);
+int		ft_putstr_n(char *str, int n);
 void	makeallfalse(t_printf *printfstruck);
 void	numberflag1(char *number, t_printf *printfstruct);
 void	numberflag2(char *number, t_printf *printfstruct);
-int	putnchar(int sc, char c);
-int change_sine(int n);
-int	positiveorzero(int n);
-
+int		putnc(int sc, char c);
+int		change_sine(int n);
+int		porz(int n);
 
 #endif // FT_PRINTF_H_

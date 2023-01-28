@@ -36,12 +36,12 @@ int	ft_atoi(const char *nptr)
 	nb = 0;
 	i = 0;
 	onum = ft_whitespace(nptr);
-	if (onum[i] == '-')
+	while (onum[i] == '-')
 	{
 		mult *= -1;
 		i++;
 	}
-	else if (onum[i] == '+')
+	if (onum[i] == '+')
 		i++;
 	while (onum[i] >= '0' && onum[i] <= '9' && ft_isdigit(onum[i]))
 	{
