@@ -62,6 +62,9 @@ SRCS = ${addprefix ./lib/,${LIB}} \
 			srcs/ft_extra.c \
 			srcs/ft_c.c \
 			srcs/ft_s.c \
+			srcs/ft_x.c \
+			srcs/ft_X.c \
+			srcs/ft_p.c \
 
 OBJS = ${SRCS:.c=.o}
 SRCSB = ${addprefix ./lib/,${LIB}} \

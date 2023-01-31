@@ -122,12 +122,14 @@ void	pars3(va_list args, t_printf *printfstruct)
 		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
 	else if (printfstruct->firstAfter == 'd')
 		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'u')
+		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'p')
+		printfstruct->retlen = p(va_arg(args, unsigned long), printfstruct);
 	else if (printfstruct->firstAfter == 'x')
-		printfstruct->retlen = printhex(args, False);
+		printfstruct->retlen = x(va_arg(args, unsigned int), printfstruct);
 	else if (printfstruct->firstAfter == 'X')
-		printfstruct->retlen = printhex(args, True);
-	else if (printfstruct->firstAfter == 'X')
-		printfstruct->retlen = printhex(args, True);
+		printfstruct->retlen = X(va_arg(args, unsigned int), printfstruct);
 	pars4(args, printfstruct);
 }
 
@@ -135,6 +137,3 @@ void	pars4(va_list args, t_printf *printfstruct)
 {
 }
 
-int	printhex(va_list args, Bool X)
-{
-}
