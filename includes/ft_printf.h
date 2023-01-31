@@ -44,8 +44,6 @@ int		pars(va_list args, t_printf *printfstruct);
 void	pars0(va_list args, t_printf *printfstruct);
 void	pars1(va_list args, t_printf *printfstruct);
 void	pars2(va_list args, t_printf *printfstruct);
-void	pars3(va_list args, t_printf *printfstruct);
-void	pars4(va_list args, t_printf *printfstruct);
 int		c(int args, t_printf *ps);
 int		s(char *str, t_printf *ps);
 void	s2(char *str, t_printf *ps);
@@ -63,6 +61,9 @@ void	printnumber9(t_printf *ps, char *pthis, int nlen,int number);
 void	printnumber10(t_printf *ps, char *pthis, int nlen,int number);
 void	printnumber11(t_printf *ps, char *pthis, int nlen,int number);
 int		printnumber12(t_printf *ps, char *pthis, int nlen,int number);
+int		u(unsigned int number, t_printf *ps);
+void	u2(unsigned int number, t_printf *ps, int *nlen, char c);
+void	u3(unsigned int number, t_printf *ps, int *nlen, char c);
 int		x(unsigned int number, t_printf *ps);
 void	x2(unsigned int number, t_printf *ps, int *nlen, char c);
 void	x3(unsigned int number, t_printf *ps, int *nlen, char c);
@@ -84,6 +85,8 @@ void	hex_len(unsigned int nbr, char *base, int *nlen);
 void	ft_putnbr_base(unsigned int nbr, char *base);
 void	hex_len_p(unsigned long nbr, char *base, int *nlen);
 void	ft_putnbr_base_p(unsigned long nbr, char *base);
+void	num_len(unsigned int nb, int *nlen);
+void	unsigned_base(unsigned int nb);
 void	ft_putchar(char c);
 
 #endif // FT_PRINTF_H_

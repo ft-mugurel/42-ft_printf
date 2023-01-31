@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_x.c                                             :+:      :+:    :+:   */
+/*   ft_u.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mugurel <muhammedtalhaugurel@gmai...>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
 
-int	X(unsigned int number, t_printf *ps)
+int	u(unsigned int number, t_printf *ps)
 {
 	int nlen;
 	char c;
@@ -23,22 +23,17 @@ int	X(unsigned int number, t_printf *ps)
 	else
 		c= ' ';
 	nlen = 0;
-	hex_len(number, "0123456789ABCDEF", &nlen);
-	if (ps->hastagToken && number != 0)
-	{
-		nlen += 2;
-		write(1, "0X", 2);
-	}
+	num_len(number, &nlen);
 	if (ps->dotToken)
-		X2(number, ps, &nlen, c);
+		u2(number, ps, &nlen, c);
 	if (!ps->dotToken)
-		X3(number, ps, &nlen, c);
-	ps->printed = True;
+		u3(number, ps, &nlen, c);
 	ps->retlen += nlen;
+	ps->printed = True;
 	return (ps->retlen);
 }
 
-void	X2(unsigned int number, t_printf *ps, int *nlen, char c)
+void	u2(unsigned int number, t_printf *ps, int *nlen, char c)
 {
 	if (number == 0)
 		*nlen = 0;
@@ -46,7 +41,7 @@ void	X2(unsigned int number, t_printf *ps, int *nlen, char c)
 	{
 		ps->retlen += putnc(ps->Number2 - *nlen, '0');
 		if (number != 0	)
-			ft_putnbr_base(number, "0123456789ABCDEF");
+			unsigned_base(number);
 		ps->retlen += putnc((ps->Number - *nlen) - porz(ps->Number2 - *nlen), ' ');
 		ps->printed = True;
 	}
@@ -55,23 +50,43 @@ void	X2(unsigned int number, t_printf *ps, int *nlen, char c)
 		ps->retlen += putnc((ps->Number - *nlen) - porz(ps->Number2 - *nlen), ' ');
 		ps->retlen += putnc(ps->Number2 - *nlen, '0');
 		if (number != 0)
-			ft_putnbr_base(number, "0123456789ABCDEF");
+			unsigned_base(number);
 		ps->printed = True;
 	}
 }
 
-void	X3(unsigned int number, t_printf *ps, int *nlen, char c)
+void	u3(unsigned int number, t_printf *ps, int *nlen, char c)
 {
 	if (ps->minusToken)
 	{
-		ft_putnbr_base(number, "0123456789ABCDEF");
+		unsigned_base(number);
 		ps->retlen += putnc(ps->Number - *nlen, c);
 		ps->printed = True;
 	}
 	if (!ps->minusToken)
 	{
 		ps->retlen += putnc(ps->Number - *nlen, c);
-		ft_putnbr_base(number, "0123456789ABCDEF");
+		unsigned_base(number);
 		ps->printed = True;
 	}
+}
+
+void	num_len(unsigned int nb, int *nlen)
+{
+	char	*base;
+
+	base = "0123456789";
+	if (nb >= 10)
+		num_len(nb / 10, nlen);
+	*nlen = *nlen + 1;
+}
+
+void	unsigned_base(unsigned int nb)
+{
+	char	*base;
+
+	base = "0123456789";
+	if (nb >= 10)
+		unsigned_base(nb / 10);
+	ft_putchar_fd(base[nb % 10], 1);
 }

@@ -58,6 +58,53 @@ int pars(va_list args, t_printf *printfstruct)
 	return (i);
 }
 
+void	pars0(va_list args, t_printf *printfstruct)
+{
+	if (printfstruct->firstAfter == '%')
+	{
+		ft_putchar_fd('%', 1);
+		printfstruct->retlen += 1;
+		printfstruct->printed = True;
+		return ;
+	}
+	else if (printfstruct->firstAfter == '+')
+		printfstruct->plusToken = True;
+	else if (printfstruct->firstAfter == '-')
+	  printfstruct->minusToken = True;
+	else if (printfstruct->firstAfter == '#')
+		printfstruct->hastagToken = True;	
+	else if (printfstruct->firstAfter == ' ')
+		printfstruct->spaceToken = True;
+	pars1(args, printfstruct);
+}
+
+void	pars1(va_list args, t_printf *printfstruct)
+{
+	if (printfstruct->firstAfter == 's')
+		printfstruct->retlen = s(va_arg(args, char *), printfstruct);
+	else if (printfstruct->firstAfter == 'c')
+		printfstruct->retlen = c(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'i')
+		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'd')
+		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
+	else if (printfstruct->firstAfter == 'u')
+		printfstruct->retlen = u(va_arg(args, unsigned int), printfstruct);
+	else if (printfstruct->firstAfter == 'p')
+		printfstruct->retlen = p(va_arg(args, unsigned long), printfstruct);
+	else if (printfstruct->firstAfter == 'x')
+		printfstruct->retlen = x(va_arg(args, unsigned int), printfstruct);
+	else if (printfstruct->firstAfter == 'X')
+		printfstruct->retlen = X(va_arg(args, unsigned int), printfstruct);
+}
+
+int change_sine(int n)
+{
+	if (n < 0)
+		n = n * -1;
+	return (n);
+}
+
 void	numberflag1(char *number, t_printf *printfstruct)
 {
 	int i;
@@ -75,65 +122,3 @@ void	numberflag1(char *number, t_printf *printfstruct)
 	if (ft_isdigit(number[i + 1]))
 		printfstruct->numberToken2 = True;
 }
-
-int change_sine(int n)
-{
-	if (n < 0)
-		n = n * -1;
-	return (n);
-}
-
-void	pars0(va_list args, t_printf *printfstruct)
-{
-	if (printfstruct->firstAfter == '+')
-	{
-		printfstruct->plusToken = True;
-	}
-	else if (printfstruct->firstAfter == '-')
-	{
-	  printfstruct->minusToken = True;
-	}
-	pars1(args, printfstruct);
-}
-
-void	pars1(va_list args, t_printf *printfstruct)
-{
-	if (printfstruct->firstAfter == '#')
-	{
-		printfstruct->hastagToken = True;	
-	}
-	pars2(args, printfstruct);
-}
-void	pars2(va_list args, t_printf *printfstruct)
-{
-	if (printfstruct->firstAfter == ' ')
-	{
-		printfstruct->spaceToken = True;
-	}
-	pars3(args, printfstruct);
-}
-void	pars3(va_list args, t_printf *printfstruct)
-{
-	if (printfstruct->firstAfter == 's')
-		printfstruct->retlen = s(va_arg(args, char *), printfstruct);
-	else if (printfstruct->firstAfter == 'c')
-		printfstruct->retlen = c(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'i')
-		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'd')
-		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'u')
-		printfstruct->retlen = printnumber(va_arg(args, int), printfstruct);
-	else if (printfstruct->firstAfter == 'p')
-		printfstruct->retlen = p(va_arg(args, unsigned long), printfstruct);
-	else if (printfstruct->firstAfter == 'x')
-		printfstruct->retlen = x(va_arg(args, unsigned int), printfstruct);
-	else if (printfstruct->firstAfter == 'X')
-		printfstruct->retlen = X(va_arg(args, unsigned int), printfstruct);
-	pars4(args, printfstruct);
-}
-
-void	pars4(va_list args, t_printf *printfstruct)
-{
-}
-
