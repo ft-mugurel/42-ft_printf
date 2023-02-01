@@ -18,7 +18,7 @@ void	parsing(char *str, va_list args, t_printf *printfstruct)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == '%')
 		{
@@ -35,16 +35,16 @@ void	parsing(char *str, va_list args, t_printf *printfstruct)
 	}
 }
 
-int pars(va_list args, t_printf *printfstruct)
+int	pars(va_list args, t_printf *printfstruct)
 {
-	int	i;
-	Bool dontzero;
+	int		i;
+	fool	dontzero;
 
 	i = 0;
 	dontzero = False;
-	while(printfstruct->After[i] && !printfstruct->printed)
+	while (printfstruct->After[i] && !printfstruct->printed)
 	{
-	  printfstruct->firstAfter = printfstruct->After[i];
+		printfstruct->firstAfter = printfstruct->After[i];
 		numberflag1(printfstruct->After, printfstruct);
 		if (printfstruct->firstAfter >= '1' && printfstruct->firstAfter <= '9')
 			dontzero = True;
@@ -52,8 +52,8 @@ int pars(va_list args, t_printf *printfstruct)
 			printfstruct->dotToken = True;
 		if (printfstruct->firstAfter == '0' && !dontzero)
 			printfstruct->zeroToken = True;
-	  pars0(args, printfstruct);
-	  i++;
+		pars0(args, printfstruct);
+		i++;
 	}
 	return (i);
 }
@@ -70,9 +70,9 @@ void	pars0(va_list args, t_printf *printfstruct)
 	else if (printfstruct->firstAfter == '+')
 		printfstruct->plusToken = True;
 	else if (printfstruct->firstAfter == '-')
-	  printfstruct->minusToken = True;
+		printfstruct->minusToken = True;
 	else if (printfstruct->firstAfter == '#')
-		printfstruct->hastagToken = True;	
+		printfstruct->hastagToken = True;
 	else if (printfstruct->firstAfter == ' ')
 		printfstruct->spaceToken = True;
 	pars1(args, printfstruct);
@@ -95,28 +95,21 @@ void	pars1(va_list args, t_printf *printfstruct)
 	else if (printfstruct->firstAfter == 'x')
 		printfstruct->retlen = x(va_arg(args, unsigned int), printfstruct);
 	else if (printfstruct->firstAfter == 'X')
-		printfstruct->retlen = X(va_arg(args, unsigned int), printfstruct);
-}
-
-int change_sine(int n)
-{
-	if (n < 0)
-		n = n * -1;
-	return (n);
+		printfstruct->retlen = h_x(va_arg(args, unsigned int), printfstruct);
 }
 
 void	numberflag1(char *number, t_printf *printfstruct)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (printfstruct->minusToken)
-		printfstruct->Number = change_sine(ft_atoi(number + 1));	
+		printfstruct->Number = change_sine(ft_atoi(number + 1));
 	if (!printfstruct->minusToken)
-		printfstruct->Number = change_sine(ft_atoi(number));	
+		printfstruct->Number = change_sine(ft_atoi(number));
 	while (number[i] != '.' && number[i])
 		i++;
-	printfstruct->Number2 = change_sine(ft_atoi(number + i + 1));	
+	printfstruct->Number2 = change_sine(ft_atoi(number + i + 1));
 	if (printfstruct->Number > 0)
 		printfstruct->numberToken = True;
 	if (ft_isdigit(number[i + 1]))

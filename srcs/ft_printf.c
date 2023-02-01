@@ -13,17 +13,17 @@
 #include "../includes/ft_printf.h"
 #include <stdio.h>
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-  va_list args;
-  t_printf printfstruck;
+	va_list		args;
+	t_printf	printfstruck;
 
-  makeallfalse(&printfstruck);
+	makeallfalse(&printfstruck);
 	printfstruck.retlen = 0;
-  va_start(args, str);
-  parsing((char *)str, args, &printfstruck);
-  va_end(args);
-  return (printfstruck.retlen);
+	va_start(args, str);
+	parsing((char *)str, args, &printfstruck);
+	va_end(args);
+	return (printfstruck.retlen);
 }
 
 void	makeallfalse(t_printf *printfstruck)

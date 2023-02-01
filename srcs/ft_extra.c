@@ -29,7 +29,7 @@ int	putnc(int sc, char c)
 
 int	ft_putstr_n(char *str, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && n > i)
@@ -38,4 +38,23 @@ int	ft_putstr_n(char *str, int n)
 		i++;
 	}
 	return (i);
+}
+
+int	putnil(void)
+{
+	ft_putstr_fd("(nil)", 1);
+	return (5);
+}
+
+int	hexprefix(void)
+{
+	ft_putstr_fd("0x", 1);
+	return (2);
+}
+
+int	change_sine(int n)
+{
+	if (n < 0)
+		n = n * -1;
+	return (n);
 }

@@ -13,27 +13,15 @@
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
 
-int putnil()
-{
-	ft_putstr_fd("(nil)", 1);
-	return (5);
-}
-
-int hexprefix()
-{
-	ft_putstr_fd("0x", 1);
-	return (2);
-}
-
 int	p(unsigned long number, t_printf *ps)
 {
-	int nlen;
-	char c;
-	
+	int		nlen;
+	char	c;
+
 	if (ps->zeroToken)
 		c = '0';
 	else
-		c= ' ';
+		c = ' ';
 	nlen = 0;
 	hex_len_p(number, "0123456789abcdef", &nlen);
 	if (number != 0)
@@ -50,9 +38,9 @@ void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 {
 	if (ps->minusToken)
 	{
-		if (number != 0	)
+		if (number != 0)
 			write(1, "0x", 2);
-		if (number != 0	)
+		if (number != 0)
 			ft_putnbr_base_p(number, "0123456789abcdef");
 		else
 			nlen += putnil();
@@ -62,9 +50,9 @@ void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 	if (!ps->minusToken)
 	{
 		ps->retlen += putnc(ps->Number - *nlen, c);
-		if (number != 0	)
+		if (number != 0)
 			write(1, "0x", 2);
-		if (number != 0	)
+		if (number != 0)
 			ft_putnbr_base_p(number, "0123456789abcdef");
 		else
 			nlen += putnil();
@@ -72,10 +60,9 @@ void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 	}
 }
 
-
 void	hex_len_p(unsigned long nbr, char *base, int *nlen)
 {
-	int	basel;
+	int				basel;
 	unsigned long	n;
 
 	n = nbr;
@@ -97,7 +84,7 @@ void	hex_len_p(unsigned long nbr, char *base, int *nlen)
 
 void	ft_putnbr_base_p(unsigned long nbr, char *base)
 {
-	int	basel;
+	int				basel;
 	unsigned long	n;
 
 	n = nbr;
@@ -113,6 +100,6 @@ void	ft_putnbr_base_p(unsigned long nbr, char *base)
 	}
 	else
 	{
-		ft_putchar(base[n]);
+		ft_putchar_fd(base[n], 1);
 	}
 }

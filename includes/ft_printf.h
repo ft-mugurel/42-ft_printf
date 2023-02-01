@@ -10,31 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H_
-#define FT_PRINTF_H_
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+# include <stdarg.h>
+# include <unistd.h>
 
-#include <stdarg.h>
-#include <unistd.h>
+typedef short	fool;
 
-typedef short Bool;
-
-enum BoolStruc {False = 0, True = ~0};
+enum e_boolstruc {False = 0, True = ~0};
 
 typedef struct t_list
 {
- 	Bool	numberToken;
- 	Bool	numberToken2;
- 	Bool	minusToken;
- 	Bool	plusToken;
- 	Bool	zeroToken;
- 	Bool	hastagToken;
-	Bool	dotToken;
-	Bool	spaceToken;
+	fool	numberToken;
+	fool	numberToken2;
+	fool	minusToken;
+	fool	plusToken;
+	fool	zeroToken;
+	fool	hastagToken;
+	fool	dotToken;
+	fool	spaceToken;
 	int		Number;
 	int		Number2;
 	char	*After;
 	char	firstAfter;
-	Bool	printed;
+	fool	printed;
 	int		retlen;
 }			t_printf;
 
@@ -51,25 +50,25 @@ void	s3(char *str, t_printf *ps, int slen);
 void	s4(char *str, t_printf *ps, int slen);
 int		printnumber(int number, t_printf *printfstruct);
 void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen);
-void	printnumber3(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber3(t_printf *ps, char *pthis, int nlen, int number);
 void	printnumber4(t_printf *ps, int nlen);
-void	printnumber5(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber6(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber7(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber8(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber9(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber10(t_printf *ps, char *pthis, int nlen,int number);
-void	printnumber11(t_printf *ps, char *pthis, int nlen,int number);
-int		printnumber12(t_printf *ps, char *pthis, int nlen,int number);
+void	printnumber5(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber6(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber7(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber8(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber9(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber10(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber11(t_printf *ps, char *pthis, int nlen, int number);
+int		printnumber12(t_printf *ps, char *pthis, int nlen, int number);
 int		u(unsigned int number, t_printf *ps);
 void	u2(unsigned int number, t_printf *ps, int *nlen, char c);
 void	u3(unsigned int number, t_printf *ps, int *nlen, char c);
 int		x(unsigned int number, t_printf *ps);
 void	x2(unsigned int number, t_printf *ps, int *nlen, char c);
 void	x3(unsigned int number, t_printf *ps, int *nlen, char c);
-int		X(unsigned int number, t_printf *ps);
-void	X2(unsigned int number, t_printf *ps, int *nlen, char c);
-void	X3(unsigned int number, t_printf *ps, int *nlen, char c);
+int		h_x(unsigned int number, t_printf *ps);
+void	h_x2(unsigned int number, t_printf *ps, int *nlen, char c);
+void	h_x3(unsigned int number, t_printf *ps, int *nlen, char c);
 int		p(unsigned long number, t_printf *ps);
 void	p2(unsigned long number, t_printf *ps, int *nlen, char c);
 int		ft_putstr_n(char *str, int n);
@@ -88,5 +87,7 @@ void	ft_putnbr_base_p(unsigned long nbr, char *base);
 void	num_len(unsigned int nb, int *nlen);
 void	unsigned_base(unsigned int nb);
 void	ft_putchar(char c);
+int		putnil(void);
+int		hexprefix(void);
 
-#endif // FT_PRINTF_H_
+#endif // FT_PRINTF_H

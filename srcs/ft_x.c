@@ -15,13 +15,13 @@
 
 int	x(unsigned int number, t_printf *ps)
 {
-	int nlen;
-	char c;
-	
+	int		nlen;
+	char	c;
+
 	if (ps->zeroToken)
 		c = '0';
 	else
-		c= ' ';
+		c = ' ';
 	nlen = 0;
 	hex_len(number, "0123456789abcdef", &nlen);
 	if (ps->hastagToken && number != 0)
@@ -38,25 +38,25 @@ int	x(unsigned int number, t_printf *ps)
 	return (ps->retlen);
 }
 
-void	x2(unsigned int number, t_printf *ps, int *nlen, char c)
+void	x2(unsigned int number, t_printf *p, int *nlen, char c)
 {
 	if (number == 0)
 		*nlen = 0;
-	if (ps->minusToken)
+	if (p->minusToken)
 	{
-		ps->retlen += putnc(ps->Number2 - *nlen, '0');
-		if (number != 0	)
-			ft_putnbr_base(number, "0123456789abcdef");
-		ps->retlen += putnc((ps->Number - *nlen) - porz(ps->Number2 - *nlen), ' ');
-		ps->printed = True;
-	}
-	if (!ps->minusToken)
-	{
-		ps->retlen += putnc((ps->Number - *nlen) - porz(ps->Number2 - *nlen), ' ');
-		ps->retlen += putnc(ps->Number2 - *nlen, '0');
+		p->retlen += putnc(p->Number2 - *nlen, '0');
 		if (number != 0)
 			ft_putnbr_base(number, "0123456789abcdef");
-		ps->printed = True;
+		p->retlen += putnc((p->Number - *nlen) - porz(p->Number2 - *nlen), ' ');
+		p->printed = True;
+	}
+	if (!p->minusToken)
+	{
+		p->retlen += putnc((p->Number - *nlen) - porz(p->Number2 - *nlen), ' ');
+		p->retlen += putnc(p->Number2 - *nlen, '0');
+		if (number != 0)
+			ft_putnbr_base(number, "0123456789abcdef");
+		p->printed = True;
 	}
 }
 
@@ -76,14 +76,9 @@ void	x3(unsigned int number, t_printf *ps, int *nlen, char c)
 	}
 }
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
 void	hex_len(unsigned int nbr, char *base, int *nlen)
 {
-	int	basel;
+	int				basel;
 	unsigned int	n;
 
 	n = nbr;
@@ -108,16 +103,13 @@ void	hex_len(unsigned int nbr, char *base, int *nlen)
 
 void	ft_putnbr_base(unsigned int nbr, char *base)
 {
-	int	basel;
+	int				basel;
 	unsigned int	n;
 
 	n = nbr;
 	basel = 0;
 	if (n < 0)
-	{
-		ft_putchar('-');
 		n *= -1;
-	}
 	while (base[basel] != '\0')
 		basel++;
 	if (nbr >= basel)
@@ -127,6 +119,6 @@ void	ft_putnbr_base(unsigned int nbr, char *base)
 	}
 	else
 	{
-		ft_putchar(base[n]);
+		ft_putchar_fd(base[n], 1);
 	}
 }
