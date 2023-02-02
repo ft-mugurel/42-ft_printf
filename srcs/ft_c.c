@@ -15,18 +15,18 @@
 
 int	c(int args, t_printf *ps)
 {
-	if (ps->minusToken)
+	if (ps->minustoken)
 	{
 		ft_putchar_fd(args, 1);
 		ps->retlen += 1;
-		ps->retlen += putnc(ps->Number - 1, ' ');
+		ps->retlen += putnc(ps->number - 1, ' ');
 	}
-	if (!ps->minusToken)
+	if (!ps->minustoken)
 	{
-		ps->retlen += putnc(ps->Number - 1, ' ');
+		ps->retlen += putnc(ps->number - 1, ' ');
 		ft_putchar_fd(args, 1);
 		ps->retlen += 1;
 	}
-	ps->printed = True;
+	ps->printed = mrue;
 	return (ps->retlen);
 }

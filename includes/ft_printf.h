@@ -15,25 +15,25 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-typedef short	fool;
+typedef short	t_fool;
 
-enum e_boolstruc {False = 0, True = ~0};
+enum e_boolstruc {malse = 0, mrue = ~0};
 
 typedef struct t_list
 {
-	fool	numberToken;
-	fool	numberToken2;
-	fool	minusToken;
-	fool	plusToken;
-	fool	zeroToken;
-	fool	hastagToken;
-	fool	dotToken;
-	fool	spaceToken;
-	int		Number;
-	int		Number2;
-	char	*After;
-	char	firstAfter;
-	fool	printed;
+	t_fool	numbertoken;
+	t_fool	numbertoken2;
+	t_fool	minustoken;
+	t_fool	plustoken;
+	t_fool	zerotoken;
+	t_fool	hastagtoken;
+	t_fool	dottoken;
+	t_fool	spacetoken;
+	int		number;
+	int		number2;
+	char	*after;
+	char	firstafter;
+	t_fool	printed;
 	int		retlen;
 }			t_printf;
 
@@ -52,7 +52,7 @@ int		printnumber(int number, t_printf *printfstruct);
 void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen);
 void	printnumber3(t_printf *ps, char *pthis, int nlen, int number);
 void	printnumber4(t_printf *ps, int nlen);
-void	printnumber5(t_printf *ps, char *pthis, int nlen, int number);
+void	printnumber5(t_printf *ps, int nlen, int number);
 void	printnumber6(t_printf *ps, char *pthis, int nlen, int number);
 void	printnumber7(t_printf *ps, char *pthis, int nlen, int number);
 void	printnumber8(t_printf *ps, char *pthis, int nlen, int number);

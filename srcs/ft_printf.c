@@ -28,13 +28,13 @@ int	ft_printf(const char *str, ...)
 
 void	makeallfalse(t_printf *printfstruck)
 {
-	printfstruck->numberToken = False;
-	printfstruck->numberToken2 = False;
-	printfstruck->minusToken = False;
-	printfstruck->plusToken = False;
-	printfstruck->zeroToken = False;
-	printfstruck->hastagToken = False;
-	printfstruck->dotToken = False;
-	printfstruck->spaceToken = False;
-	printfstruck->printed = False;
+	printfstruck->numbertoken = malse;
+	printfstruck->numbertoken2 = malse;
+	printfstruck->minustoken = malse;
+	printfstruck->plustoken = malse;
+	printfstruck->zerotoken = malse;
+	printfstruck->hastagtoken = malse;
+	printfstruck->dottoken = malse;
+	printfstruck->spacetoken = malse;
+	printfstruck->printed = malse;
 }

@@ -32,70 +32,70 @@ int	s(char *str, t_printf *ps)
 
 void	s2(char *str, t_printf *ps)
 {
-	if (ps->dotToken && ps->Number2 >= 6)
+	if (ps->dottoken && ps->number2 >= 6)
 	{
-		ps->retlen += putnc(ps->Number - 6, ' ');
-		ps->retlen += ft_putstr_n("(null)", ps->Number2);
-		ps->printed = True;
+		ps->retlen += putnc(ps->number - 6, ' ');
+		ps->retlen += ft_putstr_n("(null)", ps->number2);
+		ps->printed = mrue;
 	}
-	if (!ps->dotToken)
+	if (!ps->dottoken)
 	{
-		if (ps->minusToken)
+		if (ps->minustoken)
 		{
-			ps->retlen += putnc(ps->Number - 6, ' ');
+			ps->retlen += putnc(ps->number - 6, ' ');
 			ft_putstr_fd("(null)", 1);
 			ps->retlen += 6;
-			ps->printed = True;
+			ps->printed = mrue;
 		}
-		if (!ps->minusToken)
+		if (!ps->minustoken)
 		{
-			ps->retlen += putnc(ps->Number - 6, ' ');
+			ps->retlen += putnc(ps->number - 6, ' ');
 			ft_putstr_fd("(null)", 1);
 			ps->retlen += 6;
-			ps->printed = True;
+			ps->printed = mrue;
 		}
 	}
 }
 
 void	s3(char *str, t_printf *ps, int slen)
 {
-	if (ps->dotToken)
+	if (ps->dottoken)
 	{
-		if (ps->minusToken)
+		if (ps->minustoken)
 		{
-			slen = ft_putstr_n(str, ps->Number2);
-			ps->retlen += putnc(ps->Number - slen, ' ');
+			slen = ft_putstr_n(str, ps->number2);
+			ps->retlen += putnc(ps->number - slen, ' ');
 			ps->retlen += slen;
-			ps->printed = True;
+			ps->printed = mrue;
 		}
-		if (!ps->minusToken)
+		if (!ps->minustoken)
 		{
-			if (ps->numberToken2)
-				ps->Number -= 1;
-			ps->retlen += putnc(ps->Number, ' ');
-			ps->retlen += ft_putstr_n(str, ps->Number2);
-			ps->printed = True;
+			if (ps->numbertoken2)
+				ps->number -= 1;
+			ps->retlen += putnc(ps->number, ' ');
+			ps->retlen += ft_putstr_n(str, ps->number2);
+			ps->printed = mrue;
 		}
 	}
 }
 
 void	s4(char *str, t_printf *ps, int slen)
 {
-	if (!ps->dotToken)
+	if (!ps->dottoken)
 	{
-		if (ps->minusToken)
+		if (ps->minustoken)
 		{
 			ft_putstr_fd(str, 1);
-			ps->retlen += putnc(ps->Number - slen, ' ');
+			ps->retlen += putnc(ps->number - slen, ' ');
 			ps->retlen += ft_strlen(str);
-			ps->printed = True;
+			ps->printed = mrue;
 		}
-		if (!ps->minusToken)
+		if (!ps->minustoken)
 		{
-			ps->retlen += putnc(ps->Number - slen, ' ');
+			ps->retlen += putnc(ps->number - slen, ' ');
 			ft_putstr_fd(str, 1);
 			ps->retlen += ft_strlen(str);
-			ps->printed = True;
+			ps->printed = mrue;
 		}
 	}
 }

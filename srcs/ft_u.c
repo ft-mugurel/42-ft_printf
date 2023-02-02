@@ -18,18 +18,18 @@ int	u(unsigned int number, t_printf *ps)
 	int		nlen;
 	char	c;
 
-	if (ps->zeroToken)
+	if (ps->zerotoken)
 		c = '0';
 	else
 		c = ' ';
 	nlen = 0;
 	num_len(number, &nlen);
-	if (ps->dotToken)
+	if (ps->dottoken)
 		u2(number, ps, &nlen, c);
-	if (!ps->dotToken)
+	if (!ps->dottoken)
 		u3(number, ps, &nlen, c);
 	ps->retlen += nlen;
-	ps->printed = True;
+	ps->printed = mrue;
 	return (ps->retlen);
 }
 
@@ -37,37 +37,37 @@ void	u2(unsigned int number, t_printf *p, int *nlen, char c)
 {
 	if (number == 0)
 		*nlen = 0;
-	if (p->minusToken)
+	if (p->minustoken)
 	{
-		p->retlen += putnc(p->Number2 - *nlen, '0');
+		p->retlen += putnc(p->number2 - *nlen, '0');
 		if (number != 0)
 			unsigned_base(number);
-		p->retlen += putnc((p->Number - *nlen) - porz(p->Number2 - *nlen), ' ');
-		p->printed = True;
+		p->retlen += putnc((p->number - *nlen) - porz(p->number2 - *nlen), ' ');
+		p->printed = mrue;
 	}
-	if (!p->minusToken)
+	if (!p->minustoken)
 	{
-		p->retlen += putnc((p->Number - *nlen) - porz(p->Number2 - *nlen), ' ');
-		p->retlen += putnc(p->Number2 - *nlen, '0');
+		p->retlen += putnc((p->number - *nlen) - porz(p->number2 - *nlen), ' ');
+		p->retlen += putnc(p->number2 - *nlen, '0');
 		if (number != 0)
 			unsigned_base(number);
-		p->printed = True;
+		p->printed = mrue;
 	}
 }
 
 void	u3(unsigned int number, t_printf *ps, int *nlen, char c)
 {
-	if (ps->minusToken)
+	if (ps->minustoken)
 	{
 		unsigned_base(number);
-		ps->retlen += putnc(ps->Number - *nlen, c);
-		ps->printed = True;
+		ps->retlen += putnc(ps->number - *nlen, c);
+		ps->printed = mrue;
 	}
-	if (!ps->minusToken)
+	if (!ps->minustoken)
 	{
-		ps->retlen += putnc(ps->Number - *nlen, c);
+		ps->retlen += putnc(ps->number - *nlen, c);
 		unsigned_base(number);
-		ps->printed = True;
+		ps->printed = mrue;
 	}
 }
 

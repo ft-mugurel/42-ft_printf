@@ -19,35 +19,35 @@ int	printnumber(int number, t_printf *ps)
 	int		nlen;
 
 	nlen = printfsetup(&pthis, ps, number);
-	printnumber2(ps, &pthis, ps->After, nlen);
-	if (!ps->minusToken && !ps->dotToken)
+	printnumber2(ps, &pthis, ps->after, nlen);
+	if (!ps->minustoken && !ps->dottoken)
 		printnumber3(ps, &pthis, nlen, number);
-	if (ps->dotToken && !ps->minusToken)
+	if (ps->dottoken && !ps->minustoken)
 		printnumber8(ps, &pthis, nlen, number);
-	else if (ps->dotToken && ps->minusToken)
+	else if (ps->dottoken && ps->minustoken)
 	{
 		if (number < 0)
 		{
 			ps->retlen += putnc(1, '-');
-			ps->Number -= 1;
+			ps->number -= 1;
 		}
 		if (!printnumber12(ps, &pthis, nlen, number))
 			return (0);
 	}
-	ps->printed = True;
-	free(ps->After);
+	ps->printed = mrue;
+	free(ps->after);
 	return (ps->retlen);
 }
 
 void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen)
 {
-	if (ps->minusToken && !ps->dotToken)
+	if (ps->minustoken && !ps->dottoken)
 	{
-		if (ps->numberToken)
+		if (ps->numbertoken)
 		{
 			ft_putstr_fd(str, 1);
 			ps->retlen += ft_strlen(str);
-			ps->retlen += putnc(ps->Number - nlen, *pthis);
+			ps->retlen += putnc(ps->number - nlen, *pthis);
 		}
 		else
 		{
@@ -59,42 +59,42 @@ void	printnumber2(t_printf *ps, char *pthis, char *str, int nlen)
 
 void	printnumber3(t_printf *ps, char *pthis, int nlen, int number)
 {
-	if (ps->plusToken && number >= 0)
+	if (ps->plustoken && number >= 0)
 		dpc(ps, '+');
-	if (ps->spaceToken && number >= 0)
+	if (ps->spacetoken && number >= 0)
 		dpc(ps, ' ');
-	if (ps->zeroToken && number < 0)
+	if (ps->zerotoken && number < 0)
 		dpc(ps, '-');
-	if (ps->numberToken)
+	if (ps->numbertoken)
 	{
-		ps->retlen += putnc(ps->Number - nlen, *pthis);
-		ft_putstr_fd(ps->After, 1);
-		ps->retlen += ft_strlen(ps->After);
+		ps->retlen += putnc(ps->number - nlen, *pthis);
+		ft_putstr_fd(ps->after, 1);
+		ps->retlen += ft_strlen(ps->after);
 	}
 	else
 	{
-		ft_putstr_fd(ps->After, 1);
-		ps->retlen += ft_strlen(ps->After);
+		ft_putstr_fd(ps->after, 1);
+		ps->retlen += ft_strlen(ps->after);
 	}
 }
 
 void	printnumber4(t_printf *ps, int nlen)
 {
-	ps->retlen += putnc((ps->Number - nlen) - (ps->Number2 - nlen), '0');
-	ps->retlen += putnc(ps->Number2, '0');
+	ps->retlen += putnc((ps->number - nlen) - (ps->number2 - nlen), '0');
+	ps->retlen += putnc(ps->number2, '0');
 }
 
-void	printnumber5(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber5(t_printf *ps, int nlen, int number)
 {
 	int	temp;
 
 	if (number < 0)
-		ps->Number -= 1;
-	temp = putnc(porz(ps->Number - nlen) - porz(ps->Number2 - nlen), ' ');
+		ps->number -= 1;
+	temp = putnc(porz(ps->number - nlen) - porz(ps->number2 - nlen), ' ');
 	ps->retlen += temp;
 	if (number < 0)
 		ps->retlen += putnc(1, '-');
-	ps->retlen += putnc(ps->Number2 - nlen, '0');
-	ft_putstr_fd(ps->After, 1);
-	ps->retlen += ft_strlen(ps->After);
+	ps->retlen += putnc(ps->number2 - nlen, '0');
+	ft_putstr_fd(ps->after, 1);
+	ps->retlen += ft_strlen(ps->after);
 }

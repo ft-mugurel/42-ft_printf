@@ -18,7 +18,7 @@ int	p(unsigned long number, t_printf *ps)
 	int		nlen;
 	char	c;
 
-	if (ps->zeroToken)
+	if (ps->zerotoken)
 		c = '0';
 	else
 		c = ' ';
@@ -29,14 +29,14 @@ int	p(unsigned long number, t_printf *ps)
 	else
 		nlen += 4;
 	p2(number, ps, &nlen, c);
-	ps->printed = True;
+	ps->printed = mrue;
 	ps->retlen += nlen;
 	return (ps->retlen);
 }
 
 void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 {
-	if (ps->minusToken)
+	if (ps->minustoken)
 	{
 		if (number != 0)
 			write(1, "0x", 2);
@@ -44,19 +44,19 @@ void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 			ft_putnbr_base_p(number, "0123456789abcdef");
 		else
 			nlen += putnil();
-		ps->retlen += putnc(ps->Number - *nlen, c);
-		ps->printed = True;
+		ps->retlen += putnc(ps->number - *nlen, c);
+		ps->printed = mrue;
 	}
-	if (!ps->minusToken)
+	if (!ps->minustoken)
 	{
-		ps->retlen += putnc(ps->Number - *nlen, c);
+		ps->retlen += putnc(ps->number - *nlen, c);
 		if (number != 0)
 			write(1, "0x", 2);
 		if (number != 0)
 			ft_putnbr_base_p(number, "0123456789abcdef");
 		else
 			nlen += putnil();
-		ps->printed = True;
+		ps->printed = mrue;
 	}
 }
 
