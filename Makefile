@@ -63,15 +63,24 @@ SRCS = ${addprefix ./lib/,${LIB}} \
 			srcs/ft_c.c \
 			srcs/ft_s.c \
 			srcs/ft_x.c \
-			srcs/ft_X.c \
+			srcs/ft_xu.c \
 			srcs/ft_p.c \
 			srcs/ft_u.c \
 
 OBJS = ${SRCS:.c=.o}
 SRCSB = ${addprefix ./lib/,${LIB}} \
-			srcs/ft_printf.c \
-			srcs/ft_printnumber.c \
-			srcs/ft_pars.c \
+			srcsb/ft_printf.c \
+			srcsb/ft_printnumber.c \
+			srcsb/ft_printnumber2.c \
+			srcsb/ft_printnumber3.c \
+			srcsb/ft_pars.c \
+			srcsb/ft_extra.c \
+			srcsb/ft_c.c \
+			srcsb/ft_s.c \
+			srcsb/ft_x.c \
+			srcsb/ft_xu.c \
+			srcsb/ft_p.c \
+			srcsb/ft_u.c \
 
 OBJS_B = ${SRCSB:.c=.o}
 NAME = libftprintf.a
