@@ -83,11 +83,6 @@ void	hex_len(unsigned int nbr, char *base, int *nlen)
 
 	n = nbr;
 	basel = 0;
-	if (n < 0)
-	{
-		ft_putchar('-');
-		n *= -1;
-	}
 	while (base[basel] != '\0')
 		basel++;
 	if (nbr >= basel)
