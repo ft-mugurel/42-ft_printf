@@ -30,7 +30,7 @@ int	h_x(unsigned int number, t_printf *ps)
 		write(1, "0X", 2);
 	}
 	if (ps->dottoken)
-		h_x2(number, ps, &nlen, c);
+		h_x2(number, ps, &nlen);
 	if (!ps->dottoken)
 		h_x3(number, ps, &nlen, c);
 	ps->printed = mrue;
@@ -38,7 +38,7 @@ int	h_x(unsigned int number, t_printf *ps)
 	return (ps->retlen);
 }
 
-void	h_x2(unsigned int number, t_printf *p, int *nlen, char c)
+void	h_x2(unsigned int number, t_printf *p, int *nlen)
 {
 	if (number == 0)
 		*nlen = 0;

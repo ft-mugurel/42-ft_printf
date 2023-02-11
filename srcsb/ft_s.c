@@ -19,7 +19,7 @@ int	s(char *str, t_printf *ps)
 
 	if (!str)
 	{
-		s2(str, ps);
+		s2(ps);
 	}
 	else
 	{
@@ -30,7 +30,7 @@ int	s(char *str, t_printf *ps)
 	return (ps->retlen);
 }
 
-void	s2(char *str, t_printf *ps)
+void	s2(t_printf *ps)
 {
 	if (ps->dottoken && ps->number2 >= 6)
 	{

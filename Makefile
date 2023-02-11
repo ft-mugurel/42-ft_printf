@@ -85,7 +85,7 @@ SRCSB = ${addprefix ./lib/,${LIB}} \
 OBJS_B = ${SRCSB:.c=.o}
 NAME = libftprintf.a
 CC = gcc
-CFLAGS =  -g
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
 LIBC = ar -rcs
 
@@ -104,7 +104,7 @@ clean:
 	@${RM} ${OBJS} ${OBJS_B}
 
 fclean: clean
-	@${RM} ${NAME} ${bonus}
+	@${RM} ${NAME} ${bonus} ./lib/libft.a
 
 re: fclean all
 

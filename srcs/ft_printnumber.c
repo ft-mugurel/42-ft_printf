@@ -23,7 +23,7 @@ int	printnumber(int number, t_printf *ps)
 	if (!ps->minustoken && !ps->dottoken)
 		printnumber3(ps, &pthis, nlen, number);
 	if (ps->dottoken && !ps->minustoken)
-		printnumber8(ps, &pthis, nlen, number);
+		printnumber8(ps, nlen, number);
 	else if (ps->dottoken && ps->minustoken)
 	{
 		if (number < 0)

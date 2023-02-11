@@ -30,7 +30,7 @@ int	x(unsigned int number, t_printf *ps)
 		write(1, "0x", 2);
 	}
 	if (ps->dottoken)
-		x2(number, ps, &nlen, c);
+		x2(number, ps, &nlen);
 	if (!ps->dottoken)
 		x3(number, ps, &nlen, c);
 	ps->printed = mrue;
@@ -38,7 +38,7 @@ int	x(unsigned int number, t_printf *ps)
 	return (ps->retlen);
 }
 
-void	x2(unsigned int number, t_printf *p, int *nlen, char c)
+void	x2(unsigned int number, t_printf *p, int *nlen)
 {
 	if (number == 0)
 		*nlen = 0;
@@ -78,7 +78,7 @@ void	x3(unsigned int number, t_printf *ps, int *nlen, char c)
 
 void	hex_len(unsigned int nbr, char *base, int *nlen)
 {
-	int				basel;
+	unsigned int	basel;
 	unsigned int	n;
 
 	n = nbr;
@@ -98,13 +98,11 @@ void	hex_len(unsigned int nbr, char *base, int *nlen)
 
 void	ft_putnbr_base(unsigned int nbr, char *base)
 {
-	int				basel;
+	unsigned int	basel;
 	unsigned int	n;
 
 	n = nbr;
 	basel = 0;
-	if (n < 0)
-		n *= -1;
 	while (base[basel] != '\0')
 		basel++;
 	if (nbr >= basel)

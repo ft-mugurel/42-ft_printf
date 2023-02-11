@@ -25,7 +25,7 @@ int	u(unsigned int number, t_printf *ps)
 	nlen = 0;
 	num_len(number, &nlen);
 	if (ps->dottoken)
-		u2(number, ps, &nlen, c);
+		u2(number, ps, &nlen);
 	if (!ps->dottoken)
 		u3(number, ps, &nlen, c);
 	ps->retlen += nlen;
@@ -33,7 +33,7 @@ int	u(unsigned int number, t_printf *ps)
 	return (ps->retlen);
 }
 
-void	u2(unsigned int number, t_printf *p, int *nlen, char c)
+void	u2(unsigned int number, t_printf *p, int *nlen)
 {
 	if (number == 0)
 		*nlen = 0;
@@ -73,9 +73,6 @@ void	u3(unsigned int number, t_printf *ps, int *nlen, char c)
 
 void	num_len(unsigned int nb, int *nlen)
 {
-	char	*base;
-
-	base = "0123456789";
 	if (nb >= 10)
 		num_len(nb / 10, nlen);
 	*nlen = *nlen + 1;

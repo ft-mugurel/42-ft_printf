@@ -62,13 +62,11 @@ void	p2(unsigned long number, t_printf *ps, int *nlen, char c)
 
 void	hex_len_p(unsigned long nbr, char *base, int *nlen)
 {
-	int				basel;
+	unsigned long	basel;
 	unsigned long	n;
 
 	n = nbr;
 	basel = 0;
-	if (n < 0)
-		n *= -1;
 	while (base[basel] != '\0')
 		basel++;
 	if (nbr >= basel)
@@ -84,13 +82,11 @@ void	hex_len_p(unsigned long nbr, char *base, int *nlen)
 
 void	ft_putnbr_base_p(unsigned long nbr, char *base)
 {
-	int				basel;
+	unsigned long	basel;
 	unsigned long	n;
 
 	n = nbr;
 	basel = 0;
-	if (n < 0)
-		n *= -1;
 	while (base[basel] != '\0')
 		basel++;
 	if (nbr >= basel)

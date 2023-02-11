@@ -13,7 +13,7 @@
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
 
-void	printnumber11(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber11(t_printf *ps, int nlen, int number)
 {
 	ps->retlen += putnc(ps->number2 - nlen, '0');
 	if (number != 0 || ps->number2 != 0)
@@ -26,11 +26,11 @@ void	printnumber11(t_printf *ps, char *pthis, int nlen, int number)
 int	printnumber12(t_printf *ps, char *pthis, int nlen, int number)
 {
 	if (ps->numbertoken && ps->numbertoken2)
-		printnumber9(ps, pthis, nlen, number);
+		printnumber9(ps, pthis, nlen);
 	else if (ps->numbertoken && !ps->numbertoken2)
-		printnumber10(ps, pthis, nlen, number);
+		printnumber10(ps, pthis, number);
 	else if (!ps->numbertoken && ps->numbertoken2)
-		printnumber11(ps, pthis, nlen, number);
+		printnumber11(ps, nlen, number);
 	else if (!ps->numbertoken && !ps->numbertoken2 && number == 0)
 	{
 		free(ps->after);

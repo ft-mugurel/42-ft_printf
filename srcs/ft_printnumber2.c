@@ -13,14 +13,14 @@
 #include "../includes/ft_printf.h"
 #include "../includes/libft.h"
 
-void	printnumber6(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber6(t_printf *ps, int nlen)
 {
 	ps->retlen += putnc(ps->number - nlen, '0');
 	ft_putstr_fd(ps->after, 1);
 	ps->retlen += ft_strlen(ps->after);
 }
 
-void	printnumber7(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber7(t_printf *ps, int nlen, int number)
 {
 	ps->retlen += putnc(ps->number2 - nlen, '0');
 	if (number != 0 || ps->number2 != 0)
@@ -30,7 +30,7 @@ void	printnumber7(t_printf *ps, char *pthis, int nlen, int number)
 	}
 }
 
-void	printnumber8(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber8(t_printf *ps, int nlen, int number)
 {
 	if (number < 0 && !(ps->numbertoken && ps->numbertoken2))
 		ps->retlen += putnc(1, '-');
@@ -46,9 +46,9 @@ void	printnumber8(t_printf *ps, char *pthis, int nlen, int number)
 	else if (ps->numbertoken && ps->numbertoken2)
 		printnumber5(ps, nlen, number);
 	else if (ps->numbertoken && !ps->numbertoken2 && number != 0)
-		printnumber6(ps, pthis, nlen, number);
+		printnumber6(ps, nlen);
 	else if (!ps->numbertoken && ps->numbertoken2)
-		printnumber7(ps, pthis, nlen, number);
+		printnumber7(ps, nlen, number);
 	else
 	{
 		ft_putstr_fd(ps->after, 1);
@@ -56,7 +56,7 @@ void	printnumber8(t_printf *ps, char *pthis, int nlen, int number)
 	}
 }
 
-void	printnumber9(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber9(t_printf *ps, char *pthis, int nlen)
 {
 	ps->retlen += putnc(ps->number2 - nlen, '0');
 	ft_putstr_fd(ps->after, 1);
@@ -64,7 +64,7 @@ void	printnumber9(t_printf *ps, char *pthis, int nlen, int number)
 	ps->retlen += ft_strlen(ps->after);
 }
 
-void	printnumber10(t_printf *ps, char *pthis, int nlen, int number)
+void	printnumber10(t_printf *ps, char *pthis, int number)
 {
 	ps->retlen += putnc(ps->number, *pthis);
 	if (number != 0 || ps->number2 != 0)
